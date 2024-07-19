@@ -1,0 +1,10 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/script.rpy", line 47: end of line expected.
+    scene bg cafeteria.png
+                      ^
+
+Ren'Py Version: Ren'Py 8.2.1.24030407
+Tue Jul  2 04:56:30 2024

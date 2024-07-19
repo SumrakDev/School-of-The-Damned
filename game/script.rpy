@@ -5,7 +5,7 @@
 screen map:
     frame:
         vbox:
-            for location_key, location_value in main_game.game_loc.items():
+            for location_key in main_game.game_loc.keys():
                 textbutton "[location_key]" action (Function(game.go_to_location, location_key),
                                                     Jump("location_label"))
 

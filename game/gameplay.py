@@ -1,10 +1,15 @@
 import random
 from dataclasses import dataclass, field
-from game.data_for_items import medic_names, weapon_names, misc_names
+from data_for_items import medic_names, weapon_names, misc_names
+from data_game_loc import united_list
+
+@dataclass
+class Objects:
+    type_obj:str = "None"
 
 
 @dataclass
-class Trait:
+class Trait(Objects):
     trait_name: str = "None"
     type_obj: str = "Trait"
     trait_trigger: str = "None"
@@ -16,7 +21,7 @@ class Trait:
 
 
 @dataclass
-class Monster:
+class Monster(Objects):
     name: str = "None"
     type_obj: str = "Monster"
     image: str = ""
@@ -40,7 +45,7 @@ class Monster:
                                                        hands_count,
                                                        type_hand)
         self.__dict__["monster_descrip"] = descrip
-        self.__dict__["monster_banme"] = ("Тварь " +
+        self.__dict__["name"] = ("Тварь " +
                                           str(random.randrange(1, 99)))
 
     def __post_init__(self):
@@ -51,7 +56,7 @@ class Monster:
 
 
 @dataclass
-class Item:
+class Item(Objects):
     name: str = "None"
     type_obj: str = "Item"
     image: str = ""
@@ -63,11 +68,11 @@ class Item:
                                                     "Medicine",
                                                     "Misc"])
         if self.type_item == "Weapon":
-            self.__dict__["item_name"] = random.choice(weapon_names)
+            self.__dict__["name"] = random.choice(weapon_names)
         elif self.type_item == "Misc":
-            self.__dict__["item_name"] = random.choice(misc_names)
+            self.__dict__["name"] = random.choice(misc_names)
         elif self.type_item == "Medicine":
-            self.__dict__["item_name"] = random.choice(medic_names)
+            self.__dict__["name"] = random.choice(medic_names)
 
     def __post_init__(self):
         self.generate_item()
@@ -77,7 +82,7 @@ class Item:
 
 
 @dataclass
-class Player:
+class Player(Objects):
     name: str = "None"
     type_obj: str = "Player"
     player_traits: dict = field(default_factory=lambda: {})
@@ -94,11 +99,11 @@ class Player:
         return self.player_traits
 
     def get_item(self, item: Item):
-        self.player_inventory[item.item_name] = Item()
+        self.player_inventory[item.name] = Item()
 
 
 @dataclass
-class Location:
+class Location(Objects):
     name: str = "None"
     type_obj: str = "Location"
     id: int = 0
@@ -108,9 +113,17 @@ class Location:
 
     def content_prepare(self):
         self.loc_content["NPC"] = []
-        self.loc_content["Items"] = []
-        self.loc_content["Monsters"] = []
+        self.loc_content["Item"] = []
+        self.loc_content["Monster"] = []
         self.loc_content["Events"] = []
+
+    def add_content(self, obj: Objects):
+        for key in self.loc_content.keys():
+            if obj.type_obj == key:
+                self.loc_content[key].append(obj)
+
+    def generate_name(self, name: str):
+        self.__dict__['name'] = name
 
     def create_id(self):
         self.__dict__["id"] = random.randrange(1, 10000)
@@ -131,66 +144,40 @@ class Location:
 
 @dataclass
 class Game:
-    monsters: int = 3
-    items: int = 3
+    monsters_count: int = 3
+    items_count: int = 3
     game_data: list = field(default_factory=lambda: [])
-    game_map: list = field(default_factory=lambda: [])
-    game_loc: dict = field(default_factory=lambda: {})
+    game_map: dict = field(default_factory=lambda: {})
     player: Player = field(default_factory=Player)
-    current_location: Location = field(default_factory=Location)
 
-    def create_game_items(self):
-        for i in range(self.items):
-            item = Item()
-            self.game_data.append(item)
+    def create_monster(self):
+        for i in range(self.monsters_count):
+            self.game_data.append(Monster())
 
-    def create_game_monsters(self):
-        for i in range(self.monsters):
-            monster = Monster()
-            self.game_data.append(monster)
+    def create_item(self):
+        for i in range(self.items_count):
+            self.game_data.append(Item())
 
-    def create_objects(self):
-        npc: dict = {}
-        items: dict = {}
-        monsters: dict = {}
-        events: dict = {}
-
-        for obj in self.game_data:
-            if obj.type_obj == "NPC":
-                npc[obj.name] = obj
-            elif obj.type_obj == "Item":
-                items[obj.name] = obj
-            elif obj.type_obj == "Monster":
-                monsters[obj.name] = obj
-            elif obj.type_obj == "Event":
-                events[obj.name] = obj
-
-        work_list = [npc, items, monsters, events]
-        self.game_data.clear()
-        self.__dict__["game_data"] = work_list
-
-    def prepare_map(self):
-        locations = {}
-        for location in self.game_map:
-            locations[location.name] = location
-        self.__dict__["game_loc"] = locations
+    def create_loc(self):
+        for i in range(0, len(united_list)):
+            location = Location()
+            location.generate_name(united_list[i])
+            self.game_map[location.name] = location
 
     def __post_init__(self):
-        self.create_game_items()
-        self.create_game_monsters()
-        self.create_objects()
+        self.create_monster()
+        self.create_item()
+        self.create_loc()
 
-    def get_random_value(self, dictionary):
-        keys = list(dictionary.keys())
-        random_key_index = random.randint(0, len(keys) - 1)
-        return dictionary[keys[random_key_index]]
+    def generate_content(self):
+        for obj in self.game_data:
+            [self.game_map[loc_key].add_content(obj) for loc_key in self.game_map.keys()]
 
-    def fill_loc(self):
-        item = self.get_random_value(self.game_data[1])
-        monster = self.get_random_value(self.game_data[2])
-        self.current_location.loc_content["Items"].append(item)
-        self.current_location.loc_content["Monsters"].append(monster)
-
-    def go_to_location(self, location: str):
-        self.__dict__["current_location"] = self.game_loc[location]
-        self.fill_loc()
+    def __str__(self):
+        location = [self.game_map[loc] for loc in self.game_map.keys()]
+        return f"""Общая дата: {[obj.name for obj in self.game_data]}
+Карта: {[obj for obj in self.game_map.keys()]}
+////////////////////////////
+Локация: {location[0].name}
+    Монстры: {[obj.name for obj in location[0].loc_content["Monster"]]}
+    Предметы: {[ obj.name for obj in location[0].loc_content["Item"]]}"""

@@ -1,71 +1,26 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "renpy/common/00action_file.rpy", line 414, in __call__
-    renpy.save(fn, extra_info=save_name)
-Exception: Could not pickle <module 'random' from "D:\\Ren'Py\\renpy-8.2.1-sdk\\lib\\python3.9\\random.pyc">. (perhaps store.random = <module 'random' from "D:\\Ren'Py\\renpy-8.2.1-sdk\\lib\\python3.9\\random.pyc">)
+  File "game/script.rpy", line 61, in script
+    python:
+  File "game/script.rpy", line 62, in <module>
+    items = game.current_location.loc_content["Items"]
+AttributeError: 'Game' object has no attribute 'current_location'
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "renpy/common/_layout/screen_load_save.rpym", line 35, in script
-    $ ui.interact()
+  File "game/script.rpy", line 61, in script
+    python:
   File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\ast.py", line 823, in execute
     renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
   File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\python.py", line 1178, in py_exec_bytecode
     exec(bytecode, globals, locals)
-  File "renpy/common/_layout/screen_load_save.rpym", line 35, in <module>
-    $ ui.interact()
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\ui.py", line 301, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\core.py", line 2165, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\core.py", line 3201, in interact_core
-    rv = root_widget.event(ev, x, y, 0)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\layout.py", line 1202, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\layout.py", line 1202, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\layout.py", line 1202, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\screen.py", line 793, in event
-    rv = self.child.event(ev, x, y, st)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\layout.py", line 1202, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\layout.py", line 1426, in event
-    rv = super(Window, self).event(ev, x, y, st)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\layout.py", line 288, in event
-    rv = d.event(ev, x - xo, y - yo, st)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\layout.py", line 1202, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\layout.py", line 1426, in event
-    rv = super(Window, self).event(ev, x, y, st)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\layout.py", line 288, in event
-    rv = d.event(ev, x - xo, y - yo, st)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\layout.py", line 1202, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\layout.py", line 288, in event
-    rv = d.event(ev, x - xo, y - yo, st)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\behavior.py", line 1174, in event
-    return handle_click(self.clicked)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\behavior.py", line 1095, in handle_click
-    rv = run(action)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\display\behavior.py", line 395, in run
-    return action(*args, **kwargs)
-  File "renpy/common/00action_file.rpy", line 414, in __call__
-    renpy.save(fn, extra_info=save_name)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\loadsave.py", line 436, in save
-    reraise(t, e, tb)
-  File "lib/python3.9/future/utils/__init__.py", line 444, in raise_
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\loadsave.py", line 417, in save
-    dump((roots, renpy.game.log), logf)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\compat\pickle.py", line 103, in dump
-    pickle.dump(o, f, pickle.HIGHEST_PROTOCOL if highest else PROTOCOL)
-  File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\python.py", line 1275, in module_pickle
-    raise Exception("Could not pickle {!r}.".format(module))
-Exception: Could not pickle <module 'random' from "D:\\Ren'Py\\renpy-8.2.1-sdk\\lib\\python3.9\\random.pyc">. (perhaps store.random = <module 'random' from "D:\\Ren'Py\\renpy-8.2.1-sdk\\lib\\python3.9\\random.pyc">)
+  File "game/script.rpy", line 62, in <module>
+    items = game.current_location.loc_content["Items"]
+AttributeError: 'Game' object has no attribute 'current_location'
 
 Windows-10-10.0.22631 AMD64
 Ren'Py 8.2.1.24030407
 School of The Damned 1.0
-Sun Jul 14 15:57:16 2024
+Tue Aug 13 14:41:33 2024

@@ -10,24 +10,31 @@ screen map:
                                                     Jump("location_label"))
 
 screen location:
+    python:
+        name = test_loc.name
+        items_loc = [item.name for item in test_loc.loc_content["Item"]]
+        monsters_loc = [monster.name for monster in test_loc.loc_content["Monster"]]
 
     frame:
         vbox:
-            text "[main_game.current_location.name]"
-            text "[main_game.current_location.type_obj]"
-            text "[main_game.current_location.image]"
-            text "[main_game.current_location.id]"
-            textbutton "Перейти в другую локацию" action Jump("map_label")
+            text "Имя локации: [test_loc.name]"
+            text "Предметы локации: [items_loc]"
+            text "Монстры локации: [monsters_loc]"
+            text "ID локации:[test_loc.id]"
 
 
 label start:
 
+    
+
     python:
-        cafeteria = Location(name="Столовая",
-                            image="bg cafeteria.png",
-                            connection=["Столовая"])
-        school_map = [cafeteria]
-        game = Game(monsters=3, items=3, game_map=school_map)
+        monsters_count = renpy.input("Введите число монстров", length = 2)
+        items_count = renpy.input("ВВедите число предметов", length = 2)
+        monsters_num = int(monsters_count)
+        items_num = int(items_count)
+        game = Game(monsters_count= monsters_num, items_count=items_num)
+        game.generate_content()
+        image = "bg cafeteria"
         main_game = game
 
     "Калибровка связи..."
@@ -36,12 +43,10 @@ label start:
 
     
     python:
-        game.prepare_map()
-        game_map = list(game.game_loc.keys())
-        game.go_to_location(random.choice(game_map))
+        test_loc = random.choice([location for location in game.game_map.values()])
 
     image location_image:
-        Frame("[main_game.current_location.image]")
+        Frame("[image]")
 
     "Доступность данных...1 процент"
 
@@ -52,9 +57,6 @@ label start:
 
 label location_label:
     scene location_image with dissolve
-
-    python:
-        items = game.current_location.loc_content["Items"]
     
     call screen location
 

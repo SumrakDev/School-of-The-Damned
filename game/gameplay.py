@@ -22,7 +22,7 @@ class Trait(Objects):
         self.__dict__["trait_trigger"] = new_trigger
 
     def __post_init__(self):
-        self.type_obj("Trait")
+        self.set_type("Trait")
 
 
 @dataclass
@@ -53,7 +53,7 @@ class Monster(Objects):
                                           str(random.randrange(1, 99)))
 
     def __post_init__(self):
-        self.type_obj("Monster")
+        self.set_type("Monster")
         self.generate_monster()
 
     def get_index(self, new_index: int):
@@ -79,7 +79,7 @@ class Item(Objects):
             self.__dict__["name"] = random.choice(medic_names)
 
     def __post_init__(self):
-        self.type_obj("Item")
+        self.set_type("Item")
         self.generate_item()
 
     def get_index(self, new_index: int):
@@ -135,7 +135,7 @@ class Location(Objects):
         self.loc_content.clear()
 
     def __post_init__(self):
-        self.type_obj("Location")
+        self.set_type("Location")
         self.create_id()
         self.content_prepare()
 
@@ -185,3 +185,7 @@ class Game:
 Локация: {location[0].name}
     Монстры: {[obj.name for obj in location[0].loc_content["Monster"]]}
     Предметы: {[ obj.name for obj in location[0].loc_content["Item"]]}"""
+
+
+game = Game()
+print(game)

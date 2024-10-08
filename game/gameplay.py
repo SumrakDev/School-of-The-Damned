@@ -5,7 +5,10 @@ from data_game_loc import united_list
 
 @dataclass
 class Objects:
-    type_obj:str = "None"
+    name: str = "None"
+    image: str = "None"
+    type_obj: str = "None"
+    id: int = 0
 
     def set_type(self, type: str):
         self.__dict__["type_obj"] = type
@@ -13,9 +16,8 @@ class Objects:
 
 @dataclass
 class Trait(Objects):
-    trait_name: str = "None"
-    trait_trigger: str = "None"
-    trait_text: str = "None"
+    trigger: str = "None"
+    text: str = "None"
     trait_contaiment: dict = field(default_factory=lambda: {})
 
     def triger_changer(self, new_trigger: str):
@@ -27,8 +29,6 @@ class Trait(Objects):
 
 @dataclass
 class Monster(Objects):
-    name: str = "None"
-    image: str = ""
     monster_descrip: str = "None"
 
     def generate_monster(self):
@@ -62,8 +62,6 @@ class Monster(Objects):
 
 @dataclass
 class Item(Objects):
-    name: str = "None"
-    image: str = ""
     type_item: str = "None"
     action_item: str = "Item was used"
 
@@ -88,7 +86,6 @@ class Item(Objects):
 
 @dataclass
 class Player(Objects):
-    name: str = "None"
     player_traits: dict = field(default_factory=lambda: {})
     player_action: dict = field(default_factory=lambda: {})
     player_inventory: dict = field(default_factory=lambda: {})
@@ -108,9 +105,6 @@ class Player(Objects):
 
 @dataclass
 class Location(Objects):
-    name: str = "None"
-    id: int = 0
-    image: str = "None"
     connection: list = field(default_factory=lambda: [])
     loc_content: dict = field(default_factory=lambda: {})
 

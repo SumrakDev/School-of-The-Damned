@@ -7,11 +7,13 @@ from data_game_loc import united_list
 class Objects:
     type_obj:str = "None"
 
+    def set_type(self, type: str):
+        self.__dict__["type_obj"] = type
+
 
 @dataclass
 class Trait(Objects):
     trait_name: str = "None"
-    type_obj: str = "Trait"
     trait_trigger: str = "None"
     trait_text: str = "None"
     trait_contaiment: dict = field(default_factory=lambda: {})
@@ -19,11 +21,13 @@ class Trait(Objects):
     def triger_changer(self, new_trigger: str):
         self.__dict__["trait_trigger"] = new_trigger
 
+    def __post_init__(self):
+        self.type_obj("Trait")
+
 
 @dataclass
 class Monster(Objects):
     name: str = "None"
-    type_obj: str = "Monster"
     image: str = ""
     monster_descrip: str = "None"
 
@@ -49,6 +53,7 @@ class Monster(Objects):
                                           str(random.randrange(1, 99)))
 
     def __post_init__(self):
+        self.type_obj("Monster")
         self.generate_monster()
 
     def get_index(self, new_index: int):
@@ -58,7 +63,6 @@ class Monster(Objects):
 @dataclass
 class Item(Objects):
     name: str = "None"
-    type_obj: str = "Item"
     image: str = ""
     type_item: str = "None"
     action_item: str = "Item was used"
@@ -75,6 +79,7 @@ class Item(Objects):
             self.__dict__["name"] = random.choice(medic_names)
 
     def __post_init__(self):
+        self.type_obj("Item")
         self.generate_item()
 
     def get_index(self, new_index: int):
@@ -84,7 +89,6 @@ class Item(Objects):
 @dataclass
 class Player(Objects):
     name: str = "None"
-    type_obj: str = "Player"
     player_traits: dict = field(default_factory=lambda: {})
     player_action: dict = field(default_factory=lambda: {})
     player_inventory: dict = field(default_factory=lambda: {})
@@ -105,7 +109,6 @@ class Player(Objects):
 @dataclass
 class Location(Objects):
     name: str = "None"
-    type_obj: str = "Location"
     id: int = 0
     image: str = "None"
     connection: list = field(default_factory=lambda: [])
@@ -132,6 +135,7 @@ class Location(Objects):
         self.loc_content.clear()
 
     def __post_init__(self):
+        self.type_obj("Location")
         self.create_id()
         self.content_prepare()
 

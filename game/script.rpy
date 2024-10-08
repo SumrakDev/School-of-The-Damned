@@ -25,8 +25,6 @@ screen location:
 
 label start:
 
-    
-
     python:
         monsters_count = renpy.input("Введите число монстров", length = 2)
         items_count = renpy.input("ВВедите число предметов", length = 2)

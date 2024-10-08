@@ -1,26 +1,31 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 61, in script
+  File "game/script.rpy", line 30, in script
     python:
-  File "game/script.rpy", line 62, in <module>
-    items = game.current_location.loc_content["Items"]
-AttributeError: 'Game' object has no attribute 'current_location'
+  File "game/script.rpy", line 35, in <module>
+    game = Game(monsters_count= monsters_num, items_count=items_num)
+TypeError: 'str' object is not callable
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 61, in script
+  File "game/script.rpy", line 30, in script
     python:
   File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\ast.py", line 823, in execute
     renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
   File "D:\Ren'Py\renpy-8.2.1-sdk\renpy\python.py", line 1178, in py_exec_bytecode
     exec(bytecode, globals, locals)
-  File "game/script.rpy", line 62, in <module>
-    items = game.current_location.loc_content["Items"]
-AttributeError: 'Game' object has no attribute 'current_location'
+  File "game/script.rpy", line 35, in <module>
+    game = Game(monsters_count= monsters_num, items_count=items_num)
+  File "<string>", line 8, in __init__
+  File "gameplay.py", line 172, in __post_init__
+  File "gameplay.py", line 159, in create_monster
+  File "<string>", line 7, in __init__
+  File "gameplay.py", line 56, in __post_init__
+TypeError: 'str' object is not callable
 
 Windows-10-10.0.22631 AMD64
 Ren'Py 8.2.1.24030407
 School of The Damned 1.0
-Tue Aug 13 14:41:33 2024
+Tue Oct  8 20:11:33 2024
